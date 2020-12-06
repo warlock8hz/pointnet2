@@ -95,7 +95,7 @@ if __name__=='__main__':
         try:
             out_filename = scene_name+'.npy' # scene0000_00.npy
             collect_one_scene_data_label(scene_name, os.path.join(output_folder, out_filename))
-        except Exception, e:
+        except Exception as e:
             log_string(scene_name+'ERROR!!')
             log_string(str(e))
     

@@ -1,4 +1,6 @@
-import tensorflow as tf
+#import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 from tensorflow.python.framework import ops
 import sys
 import os
@@ -51,8 +53,8 @@ if __name__=='__main__':
         now = time.time() 
         for _ in range(100):
             ret = sess.run(interpolated_points)
-        print time.time() - now
-        print ret.shape, ret.dtype
+        print (time.time() - now)
+        print (ret.shape, ret.dtype)
         #print ret
     
     

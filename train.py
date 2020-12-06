@@ -7,7 +7,9 @@ import math
 from datetime import datetime
 import h5py
 import numpy as np
-import tensorflow as tf
+#import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 import socket
 import importlib
 import os
@@ -28,7 +30,7 @@ parser.add_argument('--model', default='pointnet2_cls_ssg', help='Model name [de
 parser.add_argument('--log_dir', default='log', help='Log dir [default: log]')
 parser.add_argument('--num_point', type=int, default=1024, help='Point Number [default: 1024]')
 parser.add_argument('--max_epoch', type=int, default=251, help='Epoch to run [default: 251]')
-parser.add_argument('--batch_size', type=int, default=16, help='Batch Size during training [default: 16]')
+parser.add_argument('--batch_size', type=int, default=10, help='Batch Size during training [default: 16]')
 parser.add_argument('--learning_rate', type=float, default=0.001, help='Initial learning rate [default: 0.001]')
 parser.add_argument('--momentum', type=float, default=0.9, help='Initial learning rate [default: 0.9]')
 parser.add_argument('--optimizer', default='adam', help='adam or momentum [default: adam]')
@@ -130,7 +132,7 @@ def train():
             accuracy = tf.reduce_sum(tf.cast(correct, tf.float32)) / float(BATCH_SIZE)
             tf.summary.scalar('accuracy', accuracy)
 
-            print "--- Get training operator"
+            print ("--- Get training operator")
             # Get training operator
             learning_rate = get_learning_rate(batch)
             tf.summary.scalar('learning_rate', learning_rate)

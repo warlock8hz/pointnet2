@@ -3,7 +3,9 @@ import math
 from datetime import datetime
 #import h5pyprovider
 import numpy as np
-import tensorflow as tf
+#import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 import socket
 import importlib
 import os
@@ -100,7 +102,7 @@ def train():
         with tf.device('/gpu:'+str(GPU_INDEX)):
             pointclouds_pl, labels_pl, smpws_pl = MODEL.placeholder_inputs(BATCH_SIZE, NUM_POINT)
             is_training_pl = tf.placeholder(tf.bool, shape=())
-            print is_training_pl
+            print (is_training_pl)
             
             # Note the global_step=batch parameter to minimize. 
             # That tells the optimizer to helpfully increment the 'batch' parameter for you every time it trains.
@@ -108,7 +110,7 @@ def train():
             bn_decay = get_bn_decay(batch)
             tf.summary.scalar('bn_decay', bn_decay)
 
-            print "--- Get model and loss"
+            print ("--- Get model and loss")
             # Get model and loss 
             pred, end_points = MODEL.get_model(pointclouds_pl, is_training_pl, NUM_CLASSES, bn_decay=bn_decay)
             loss = MODEL.get_loss(pred, labels_pl, smpws_pl)
@@ -118,7 +120,7 @@ def train():
             accuracy = tf.reduce_sum(tf.cast(correct, tf.float32)) / float(BATCH_SIZE*NUM_POINT)
             tf.summary.scalar('accuracy', accuracy)
 
-            print "--- Get training operator"
+            print ("--- Get training operator")
             # Get training operator
             learning_rate = get_learning_rate(batch)
             tf.summary.scalar('learning_rate', learning_rate)
@@ -297,7 +299,7 @@ def eval_one_epoch(sess, ops, test_writer):
             total_seen_class[l] += np.sum((batch_label==l) & (batch_smpw>0))
             total_correct_class[l] += np.sum((pred_val==l) & (batch_label==l) & (batch_smpw>0))
 
-	for b in xrange(batch_label.shape[0]):
+	for b in range(batch_label.shape[0]):
 	    _, uvlabel, _ = pc_util.point_cloud_label_to_surface_voxel_label_fast(aug_data[b,batch_smpw[b,:]>0,:], np.concatenate((np.expand_dims(batch_label[b,batch_smpw[b,:]>0],1),np.expand_dims(pred_val[b,batch_smpw[b,:]>0],1)),axis=1), res=0.02)
 	    total_correct_vox += np.sum((uvlabel[:,0]==uvlabel[:,1])&(uvlabel[:,0]>0))
             total_seen_vox += np.sum(uvlabel[:,0]>0)
@@ -398,7 +400,7 @@ def eval_whole_scene_one_epoch(sess, ops, test_writer):
             total_seen_class[l] += np.sum((batch_label==l) & (batch_smpw>0))
             total_correct_class[l] += np.sum((pred_val==l) & (batch_label==l) & (batch_smpw>0))
 
-	for b in xrange(batch_label.shape[0]):
+	for b in range(batch_label.shape[0]):
 	    _, uvlabel, _ = pc_util.point_cloud_label_to_surface_voxel_label_fast(aug_data[b,batch_smpw[b,:]>0,:], np.concatenate((np.expand_dims(batch_label[b,batch_smpw[b,:]>0],1),np.expand_dims(pred_val[b,batch_smpw[b,:]>0],1)),axis=1), res=0.02)
 	    total_correct_vox += np.sum((uvlabel[:,0]==uvlabel[:,1])&(uvlabel[:,0]>0))
             total_seen_vox += np.sum(uvlabel[:,0]>0)

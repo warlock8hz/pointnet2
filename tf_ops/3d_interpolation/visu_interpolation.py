@@ -6,7 +6,9 @@ sys.path.append('/home/rqi/Projects/toolkits/visualization')
 from show3d_balls import showpoints
 import numpy as np
 from tf_interpolate import three_nn, three_interpolate
-import tensorflow as tf
+#import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 
 
 pts2 = np.array([[0,0,1],[1,0,0],[0,1,0],[1,1,0]]).astype('float32')
@@ -23,7 +25,7 @@ def fun(xyz1,xyz2,pts2):
         dist = tf.maximum(dist, 1e-10)
         norm = tf.reduce_sum((1.0/dist),axis=2,keep_dims=True)
         norm = tf.tile(norm, [1,1,3])
-        print norm
+        print (norm)
         weight = (1.0/dist) / norm
         interpolated_points = three_interpolate(points, idx, weight)
     with tf.Session('') as sess:

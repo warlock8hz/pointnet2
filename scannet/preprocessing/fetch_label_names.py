@@ -16,7 +16,7 @@ for scene_name in scene_names:
 
 fout = open('class_names.txt', 'w')
 for label in list(labels):
-    print label
+    print (label)
     try:
         fout.write(label+'\n')
     except:

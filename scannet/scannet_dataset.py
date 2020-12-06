@@ -145,7 +145,7 @@ class ScannetDatasetVirtualScan():
 	point_sets = list()
 	semantic_segs = list()
 	sample_weights = list()
-	for i in xrange(8):
+	for i in range(8):
 	    smpidx = scene_util.virtual_scan(point_set_ini,mode=i)
 	    if len(smpidx)<300:
 		continue
@@ -169,14 +169,14 @@ class ScannetDatasetVirtualScan():
 if __name__=='__main__':
     d = ScannetDatasetWholeScene(root = './data', split='test', npoints=8192)
     labelweights_vox = np.zeros(21)
-    for ii in xrange(len(d)):
-	print ii
+    for ii in range(len(d)):
+	print (ii)
         ps,seg,smpw = d[ii]
-        for b in xrange(ps.shape[0]):
+        for b in range(ps.shape[0]):
     	    _, uvlabel, _ = pc_util.point_cloud_label_to_surface_voxel_label_fast(ps[b,smpw[b,:]>0,:], seg[b,smpw[b,:]>0], res=0.02)
 	    tmp,_ = np.histogram(uvlabel,range(22))
 	    labelweights_vox += tmp
-    print labelweights_vox[1:].astype(np.float32)/np.sum(labelweights_vox[1:].astype(np.float32))
+    print (labelweights_vox[1:].astype(np.float32)/np.sum(labelweights_vox[1:].astype(np.float32)))
     exit()
 
 

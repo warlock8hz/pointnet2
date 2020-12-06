@@ -1,0 +1,14 @@
+
+*.so
+
+.idea/
+
+__pycache__/
+
+data/
+
+log/
+
+part_seg/log.txt
+
+part_seg/log_msg_one_hot.txt

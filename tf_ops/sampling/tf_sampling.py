@@ -3,7 +3,9 @@ Original author: Haoqiang Fan
 Modified by Charles R. Qi
 All Rights Reserved. 2017. 
 '''
-import tensorflow as tf
+#import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 from tensorflow.python.framework import ops
 import sys
 import os
@@ -79,11 +81,11 @@ if __name__=='__main__':
         us=(uplusv+uminusv)*0.5
         vs=(uplusv-uminusv)*0.5
         pt_sample=tria_sample+(trib_sample-tria_sample)*tf.expand_dims(us,-1)+(tric_sample-tria_sample)*tf.expand_dims(vs,-1)
-        print 'pt_sample: ', pt_sample
+        print ('pt_sample: ', pt_sample)
         reduced_sample=gather_point(pt_sample,farthest_point_sample(1024,pt_sample))
-        print reduced_sample
+        print (reduced_sample)
     with tf.Session('') as sess:
         ret=sess.run(reduced_sample)
-    print ret.shape,ret.dtype
+    print (ret.shape,ret.dtype)
     import cPickle as pickle
     pickle.dump(ret,open('1.pkl','wb'),-1)

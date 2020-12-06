@@ -51,11 +51,11 @@ def virtual_scan(xyz, mode=-1):
   sub_r = local_aer[sub_idx,2]
   sub_minidx = minidx[sub_idx]
   min_r = float('inf')*np.ones(np.max(sub_minidx)+1)
-  for i in xrange(len(sub_r)):
+  for i in range(len(sub_r)):
     if sub_r[i]<min_r[sub_minidx[i]]:
       min_r[sub_minidx[i]] = sub_r[i]
   sub_smpidx = np.ones(len(sub_r))
-  for i in xrange(len(sub_r)):
+  for i in range(len(sub_r)):
     if sub_r[i]>min_r[sub_minidx[i]]:
       sub_smpidx[i] = 0
   smpidx = np.where(sub_idx)[0]
@@ -64,7 +64,7 @@ def virtual_scan(xyz, mode=-1):
 
 if __name__=='__main__':
   pc = np.load('scannet_dataset/scannet_scenes/scene0015_00.npy')
-  print pc.shape
+  print (pc.shape)
   xyz = pc[:,:3]
   seg = pc[:,7]
   smpidx = virtual_scan(xyz,mode=2)
