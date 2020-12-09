@@ -150,7 +150,9 @@ def eval_one_epoch(sess, ops, num_votes=1, topk=1):
             l = batch_label[i]
             total_seen_class[l] += 1
             total_correct_class[l] += (pred_val[i] == l)
-    
+            print('\t Batch ID: %03d, batch type: %s' % (i, SHAPE_NAMES[pred_val[i]]))
+        #print('\n')
+
     log_string('eval mean loss: %f' % (loss_sum / float(batch_idx)))
     log_string('eval accuracy: %f'% (total_correct / float(total_seen)))
     log_string('eval avg class acc: %f' % (np.mean(np.array(total_correct_class)/np.array(total_seen_class,dtype=np.float))))
